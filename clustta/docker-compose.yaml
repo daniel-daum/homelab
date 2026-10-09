@@ -1,0 +1,30 @@
+services:
+  clustta:
+    image: eaxum/clustta:0.4.27@sha256:a4446a0add207269c7765e7707005eadcecb8f7d8e04a3bafdc7e9dcd8aabf26
+    container_name: clustta
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - "100.64.0.10:7774:7774" # bind to localhost only; remove port if using Docker network
+    networks:
+      - holonet
+    volumes:
+      - clustta-data:/var/data/
+      - clustta-projects:/var/projects/
+    environment:
+      - STUDIO_USERS_DB
+      - SESSION_DB
+      - PRIVATE
+
+volumes:
+  clustta-data:
+    name: clustta-data
+    driver: local
+  clustta-projects:
+    name: clustta-projects
+    driver: local
+
+networks:
+  holonet:
+    external: true

@@ -1,0 +1,17 @@
+services:
+  newt:
+    image: fosrl/newt:1.17.0
+    container_name: newt
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - dxun
+    environment:
+      - PANGOLIN_ENDPOINT
+      - NEWT_ID
+      - NEWT_SECRET
+
+networks:
+  dxun:
+    external: true

@@ -1,0 +1,28 @@
+services:
+  arcane:
+    image: ghcr.io/getarcaneapp/manager:v2.13.1
+    container_name: arcane
+    restart: unless-stopped
+    # no ports: reached only through Caddy on the dxun network
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - arcane-data:/app/data
+      - /home/maliciouspickle/homelab:/app/data/projects
+    environment:
+      - APP_URL
+      - PUID
+      - PGID
+      - ENCRYPTION_KEY
+      - JWT_SECRET
+      - LOG_LEVEL
+      - OIDC_ENABLED
+    networks:
+      - dxun
+
+volumes:
+  arcane-data:
+    name: arcane-data
+
+networks:
+  dxun:
+    external: true

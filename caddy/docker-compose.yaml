@@ -1,0 +1,27 @@
+# Internal HTTPS front door for dxun. Listens ONLY on the Tailscale IP.
+# Services to proxy join the external "proxy" network; they do not publish ports.
+#   docker network create proxy   (once)
+services:
+  caddy:
+    build: .
+    container_name: caddy
+    restart: unless-stopped
+    ports:
+      - "100.64.0.2:443:443"
+      - "100.64.0.2:443:443/udp"   # HTTP/3
+    environment:
+      CLOUDFLARE_API_TOKEN: ${CLOUDFLARE_API_TOKEN}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - dxun
+
+volumes:
+  caddy_data:
+  caddy_config:
+
+networks:
+  dxun:
+    external: true

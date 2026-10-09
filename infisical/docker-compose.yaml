@@ -1,0 +1,29 @@
+services:
+  infisical:
+    image: infisical/infisical:v0.161.3@sha256:257e9e4269e081448bea0c94f72631f040e6a792bd3f2e4a6cef096effa66b29
+    container_name: infisical
+    ports:
+      - "127.0.0.1:8080:8080"
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - holonet
+    environment:
+      - NODE_ENV=production
+      - ENCRYPTION_KEY
+      - AUTH_SECRET
+      - DB_CONNECTION_URI
+      - REDIS_URL
+      - SITE_URL
+      - SMTP_HOST
+      - SMTP_PORT
+      - SMTP_FROM_ADDRESS
+      - SMTP_FROM_NAME
+      - SMTP_USERNAME
+      - SMTP_PASSWORD
+      - TELEMETRY_ENABLED
+
+networks:
+  holonet:
+    external: true

@@ -1,0 +1,20 @@
+
+log:
+
+
+runner:
+  labels:
+      - "ubuntu-latest:docker://gitea/runner-images:ubuntu-latest"
+
+cache:
+  enabled: true
+
+
+container:
+  network: dxun
+
+host:
+
+health_check:
+
+metrics:

@@ -1,0 +1,30 @@
+{
+    email daniel@danieldaum.net
+}
+
+*.ts.danieldaum.net {
+    tls {
+        dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+        resolvers 192.168.41.1
+        propagation_timeout -1
+        propagation_delay 30s
+    }
+
+    @arcane host arcane.ts.danieldaum.net
+    handle @arcane {
+        reverse_proxy arcane:3552
+    }
+
+    @warpgate host warpgate.ts.danieldaum.net
+    handle @warpgate {
+        reverse_proxy https://warpgate:8888 {
+            transport http {
+                tls_insecure_skip_verify
+            }
+        }
+    }
+
+    handle {
+        respond "not found" 404
+    }
+}

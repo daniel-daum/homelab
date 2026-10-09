@@ -1,0 +1,95 @@
+services:
+  gitea:
+    image: gitea/gitea:1.27.3@sha256:87a67ee09d3ae0d1df5fda5dcda3e2a1f9236a45b0a59025d6e00e46adc43bef
+    container_name: gitea
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - gitea-data:/data
+      - ./theme/css:/data/gitea/public/assets/css
+    ports:
+      - "2222:22"
+    networks:
+      - dxun
+    environment:
+      - USER_UID
+      - USER_GID
+      # security
+      - GITEA__security__INSTALL_LOCK
+      # database
+      - GITEA__database__DB_TYPE
+      - GITEA__database__PATH
+      # server
+      - GITEA__server__DOMAIN
+      - GITEA__server__ROOT_URL
+      - GITEA__server__SSH_DOMAIN
+      - GITEA__server__SSH_PORT
+      - GITEA__server__LANDING_PAGE
+      - GITEA__server__LOCAL_ROOT_URL
+      # session
+      - GITEA__session__SAME_SITE
+      # mailer
+      - GITEA__mailer__ENABLED
+      - GITEA__mailer__SMTP_ADDR
+      - GITEA__mailer__SMTP_PORT
+      - GITEA__mailer__PROTOCOL
+      - GITEA__mailer__USER
+      - GITEA__mailer__PASSWD
+      - GITEA__mailer__FROM
+      # service
+      - GITEA__service__DISABLE_REGISTRATION
+      - GITEA__service__REQUIRE_SIGNIN_VIEW
+      - GITEA__service__OVERLOAD_INFLIGHT_ANONYMOUS_REQUESTS
+      # actions
+      - GITEA__actions__ENABLED
+      # oauth2
+      - GITEA__oauth2__ENABLE_AUTO_REGISTRATION
+      - GITEA__oauth2__UPDATE_AVATAR
+      - GITEA__oauth2__ACCOUNT_LINKING
+      # git lfs
+      - GITEA__server__LFS_START_SERVER
+      - GITEA__lfs__STORAGE_TYPE
+      - GITEA__lfs__MINIO_ENDPOINT
+      - GITEA__lfs__MINIO_ACCESS_KEY_ID
+      - GITEA__lfs__MINIO_SECRET_ACCESS_KEY
+      - GITEA__lfs__MINIO_BUCKET
+      - GITEA__lfs__MINIO_LOCATION
+      - GITEA__lfs__MINIO_USE_SSL
+      - GITEA__lfs__SERVE_DIRECT
+      # custom theme
+      - GITEA__ui__THEMES
+      - GITEA__ui__DEFAULT_THEME
+      # webhook
+      - GITEA__security__ALLOWED_HOST_LIST=external,private
+
+
+  gitea-runner:
+    image: gitea/runner:3.5.0
+    container_name: gitea-runner
+    restart: unless-stopped
+    depends_on:
+      - gitea
+    networks:
+      - dxun
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - runner-data:/data
+      - ./runner-config.yaml:/config.yaml:ro
+    environment:
+      GITEA_INSTANCE_URL: http://gitea:3000
+      GITEA_RUNNER_REGISTRATION_TOKEN: ${GITEA_RUNNER_REGISTRATION_TOKEN}
+      GITEA_RUNNER_NAME: dxun
+      CONFIG_FILE: /config.yaml
+
+volumes:
+  gitea-data:
+    name: gitea-data
+    driver: local
+  runner-data:
+    name: gitea-runner-data-v3
+
+networks:
+  dxun:
+    external: true
+    name: dxun
