@@ -1,17 +1,14 @@
-
 log:
 
-
 runner:
-  labels:
-      - "ubuntu-latest:docker://gitea/runner-images:ubuntu-latest"
+    labels:
+        - "ubuntu-latest:docker://gitea/runner-images:ubuntu-latest"
 
 cache:
-  enabled: true
-
+    enabled: true
 
 container:
-  network: dxun
+    network: holonet
 
 host:
 
