@@ -1,0 +1,21 @@
+services:
+  valkey:
+    image: valkey/valkey:9.1.2-alpine3.24@sha256:48332870af354a799964c0012ae1194a0bf2bf894eb508f945810596dc2d8d11
+    container_name: redis
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    command: valkey-server --requirepass ${VALKEY_PASSWORD} --save 60 1 --loglevel warning
+    volumes:
+      - redis-data:/data
+    networks:
+      - holonet
+
+volumes:
+  redis-data:
+    name: redis-data
+    driver: local
+
+networks:
+  holonet:
+    external: true
