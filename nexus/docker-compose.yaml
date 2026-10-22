@@ -1,9 +1,11 @@
 services:
   nexus:
-    image: sonatype/nexus3:3.96.0@sha256:56f8e1d241507338be1f91c9de9a9b97d72a7376f0404f6c1e914b542c983f75
+    image: sonatype/nexus3:3.97.1@sha256:ffed04698ded3565ca3b40f4abd063d59b63c2fbeb134170e095bc1197931cd5
     container_name: nexus
     ports:
-      - "127.0.0.1:8082:8081"
+      - "127.0.0.1:8081:8081"
+      - "127.0.0.1:8082:8082"   # dockerhub proxy
+      - "127.0.0.1:8083:8083"   # ghcr pr
     volumes:
       - nexus-data:/nexus-data
     networks:
@@ -12,10 +14,12 @@ services:
       - INSTALL4J_ADD_VM_PARAMS=-Xms1g -Xmx2g -XX:MaxDirectMemorySize=2g
     stop_grace_period: 120s
     restart: unless-stopped
+
 volumes:
   nexus-data:
     name: nexus-data
     driver: local
+
 networks:
   holonet:
     external: true

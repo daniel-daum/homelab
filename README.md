@@ -1,3 +1,3 @@
-# homelab
+# Homelab
 
-my self-hosted homelab services
+My self-hosted homelab services
