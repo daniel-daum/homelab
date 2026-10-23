@@ -1,0 +1,19 @@
+services:
+  databasus:
+    container_name: databasus
+    image: databasus/databasus:v3.63.1@sha256:5835dd532070b9d1f2dd26550f0dee874a59ff220b429c12635ba6969fe665fd
+    ports:
+      - "127.0.0.1:4005:4005"
+    volumes:
+      - databasus-data:/databasus-data
+    restart: unless-stopped
+    networks:
+      - holonet
+
+volumes:
+  databasus-data:
+    name: databasus-data
+
+networks:
+  holonet:
+    external: true
