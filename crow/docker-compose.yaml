@@ -1,0 +1,60 @@
+services:
+  crow-server:
+    image: codefloe.com/crowci/crow-server:v6.12.0@sha256:c15a4c255ebe4f73761e262a9c3e714a57cc66dbdc091a9c19ff1706371eefdd
+    container_name: crow-server
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - "127.0.0.1:8000:8000"   # web UI + API, put your tailnet proxy in front of this
+    volumes:
+      - crow-server-data:/var/lib/crow   # SQLite DB, back this up
+    networks:
+      - holonet
+    environment:
+      # core
+      - CROW_HOST
+      - CROW_OPEN
+      - CROW_ADMIN
+      - CROW_AGENT_SECRET
+      # gitea forge
+      - CROW_FORGES=gitea
+      - CROW_FORGE_GITEA_TYPE=gitea
+      - CROW_FORGE_GITEA_URL
+      - CROW_FORGE_GITEA_OAUTH_HOST
+      - CROW_FORGE_GITEA_CLIENT
+      - CROW_FORGE_GITEA_SECRET
+      # gitea calls crow over holonet instead of the tailnet URL
+      - CROW_EXPERT_WEBHOOK_HOST
+
+  crow-agent:
+    image: codefloe.com/crowci/crow-agent:v6.12.0@sha256:529a9956ffd8e7e05bfa4a10d2e63bd517649d22ded151f85cd87eeee6057dd7
+    container_name: crow-agent
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    depends_on:
+      - crow-server
+    networks:
+      - holonet
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - crow-agent-config:/etc/crow   # keeps agent registration across restarts
+    environment:
+      - CROW_SERVER=crow-server:9000
+      - CROW_AGENT_SECRET
+      - CROW_HOSTNAME=dxun
+      - CROW_BACKEND=docker
+      - CROW_MAX_WORKFLOWS
+      - CROW_BACKEND_DOCKER_NETWORK
+
+volumes:
+  crow-server-data:
+    name: crow-server-data
+  crow-agent-config:
+    name: crow-agent-config
+
+networks:
+  holonet:
+    external: true
+    name: holonet
