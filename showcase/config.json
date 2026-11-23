@@ -1,0 +1,19 @@
+{
+    "gitea_url": "http://gitea:3000",
+    "user": "daniel",
+    "site_url": "https://code.danieldaum.net",
+    "base_path": "/projects",
+    "repos": [
+        "showcase",
+        "saturn",
+        "holonet",
+        "rhea",
+        "minerva",
+        "homelab",
+        "dotfiles"
+    ],
+    "images": ["showcase"],
+    "max_commits": 50,
+    "theme": "moss",
+    "trusted_proxies": ["172.21.0.0/16"]
+}

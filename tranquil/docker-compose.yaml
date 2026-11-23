@@ -1,6 +1,6 @@
 services:
   tranquil:
-    image: git.danieldaum.net/daniel-daum/tranquil-pds:v0.7.1
+    image: code.aardvark-halibut.ts.net/daniel/tranquil-pds:v0.7.1@sha256:4f41f8cf2eee6799d1fdc03d38795120f172d9445dbfd898c20a14ef8f284880
     container_name: tranquil
     restart: unless-stopped
     security_opt:

@@ -1,6 +1,6 @@
 services:
   newt:
-    image: fosrl/newt:1.19.0@sha256:0189c8287058b800cca825590e4c39946b3815344ca48678dd0b96616d639319
+    image: fosrl/pangolin-cli:0.23.0@sha256:43f786362db1cd4ad60fc46a48c4a62f9bd1f7cc9924902bddd207195f8ba18a
     container_name: newt
     restart: unless-stopped
     security_opt:
@@ -9,8 +9,8 @@ services:
       - holonet
     environment:
       - PANGOLIN_ENDPOINT
-      - NEWT_ID
-      - NEWT_SECRET
+      - SITE_ID
+      - SITE_SECRET
 
 networks:
   holonet:

@@ -1,7 +1,7 @@
 services:
   databasus:
     container_name: databasus
-    image: databasus/databasus:v3.63.1@sha256:5835dd532070b9d1f2dd26550f0dee874a59ff220b429c12635ba6969fe665fd
+    image: databasus/databasus:v3.72.0@sha256:3107a04a0c6601557fa0a52491869a5705b70a67a060216ce127bed003fac214
     ports:
       - "127.0.0.1:4005:4005"
     volumes:
