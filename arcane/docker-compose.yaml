@@ -1,6 +1,6 @@
 services:
   arcane:
-    image: ghcr.io/getarcaneapp/manager@sha256:e211067a6808c1598175141cd19c48eab874a24b5b649be3ddcb3894db7e73cd
+    image: ghcr.io/getarcaneapp/manager:v3.1.1@sha256:f12cfe86238b892956d945681613e9056676ca0cda0d980abacad033ebb72bee
     container_name: arcane
     restart: unless-stopped
     ports:
@@ -9,12 +9,12 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - arcane-data:/app/data
     environment:
-      - APP_URL
+      - ARCANE_APP_URL
       - PUID
       - PGID
-      - ENCRYPTION_KEY
+      - ARCANE_ENCRYPTION_KEY
       - LOG_LEVEL
-      - OIDC_ENABLED
+      - ARCANE_OIDC_ENABLED
     networks:
       - holonet
 
