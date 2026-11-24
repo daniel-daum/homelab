@@ -1,6 +1,6 @@
 services:
   showcase:
-    image: code.aardvark-halibut.ts.net/daniel/showcase@sha256:e5d3d45006795cbf34f6e43780803f76731a3d1d2b31a8ea7bb333c719399e16
+    image: code.aardvark-halibut.ts.net/daniel/showcase:latest
     container_name: showcase
     restart: unless-stopped
     ports:

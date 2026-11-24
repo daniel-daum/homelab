@@ -1,6 +1,6 @@
 services:
   gitea:
-    image: gitea/gitea:28.2.0@sha256:30777c91280d973fa02be48b1ade735bd6859e8f6f7af3b4444d519437852504
+    image: gitea/gitea:28.4.0@sha256:aa90e8f00b755b0d665214ab9c14447ea44d3190dbe6b6d0cb46cd9c4f55d309
     container_name: gitea
     restart: unless-stopped
     security_opt:
@@ -69,10 +69,16 @@ services:
       # security and webhooks
       - GITEA__security__EGRESS_MODE
       - GITEA__security__ALLOWED_HOST_LIST
+      # commit signing
+      - GITEA__repository_0X2E_signing__SIGNING_KEY
+      - GITEA__repository_0X2E_signing__SIGNING_FORMAT
+      - GITEA__repository_0X2E_signing__SIGNING_NAME
+      - GITEA__repository_0X2E_signing__SIGNING_EMAIL
+      - GITEA__repository_0X2E_signing__MERGES
 
 
   gitea-runner:
-    image: gitea/runner:5.2.0@sha256:f4db24cc5f682483ffd01b8de6a6c6d15e6fd9320a0ce27fd18d4398db421eae
+    image: gitea/runner:6.0.1@sha256:102bbed0b454b92725845b7abeebd0a6f31d10a91a869fb5207871b0eb7d4778
     container_name: gitea-runner
     restart: unless-stopped
     depends_on:
@@ -86,7 +92,7 @@ services:
     environment:
       GITEA_INSTANCE_URL: http://gitea:3000
       GITEA_RUNNER_REGISTRATION_TOKEN: ${GITEA_RUNNER_REGISTRATION_TOKEN}
-      GITEA_RUNNER_NAME: dxun
+      GITEA_RUNNER_NAME: narshaddaa
       CONFIG_FILE: /config.yaml
 
 volumes:

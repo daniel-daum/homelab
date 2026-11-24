@@ -1,6 +1,9 @@
 log:
+    level: info
 
 runner:
+    capacity: 2 # raise to run jobs in parallel
+    timeout: 3h
     labels:
         - "ubuntu-latest:docker://gitea/runner-images:ubuntu-latest"
 
@@ -9,6 +12,8 @@ cache:
 
 container:
     network: holonet
+    privileged: false
+    valid_volumes: []
 
 host:
 
