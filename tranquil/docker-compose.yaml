@@ -1,6 +1,6 @@
 services:
   tranquil:
-    image: code.aardvark-halibut.ts.net/daniel/tranquil-pds:v0.7.1@sha256:4f41f8cf2eee6799d1fdc03d38795120f172d9445dbfd898c20a14ef8f284880
+    image: atcr.io/tranquil.farm/tranquil-pds:v0.9.0@sha256:923b145e2441771f5395ff74f6292239925eadf5ceae751d542a2a671c2d7ac3
     container_name: tranquil
     restart: unless-stopped
     security_opt:
